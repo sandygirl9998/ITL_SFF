@@ -1,7 +1,5 @@
 package com.lti.service;
 
-import javax.persistence.NoResultException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +23,10 @@ public class UserServiceImpl implements UserService {
 			return user;
 		}
 		//catch(EmptyResultDataAccessException e) {
-		catch(NoResultException e) {
+		catch(UserServiceException e) {
+			throw new UserServiceException("User not registered!");
+		}
+		catch(Exception e) {
 			throw new UserServiceException("Incorrect email/password");
 		}
 	}
