@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService {
 			throw new UserServiceException("Incorrect email/password");
 		}
 	}
+	@Override
+	public void updateStatus(int userId, String status) {
+		// TODO Auto-generated method stub
+		userRepository.updateUserStatus(userId, status);
+	}
 	
 	
 }

@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lti.dto.Login;
 import com.lti.dto.LoginStatus;
+import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entity.User;
 import com.lti.exception.UserServiceException;
@@ -39,5 +41,15 @@ public class UserController {
 			return status;			
 		}
 	}
+	
+	//for farmer and bidder approval
+			@PostMapping(value = "/userstatus")
+			public @ResponseBody Status updateUserStatus(@RequestParam("userStatus") String userStatus, @RequestParam("userId") int userId) {
+				userService.updateStatus(userId, userStatus);
+				Status status = new Status();
+				status.setStatus(StatusType.SUCCESS);
+				status.setMessage("Approval Done");
+				return status;
+			}
 
 }

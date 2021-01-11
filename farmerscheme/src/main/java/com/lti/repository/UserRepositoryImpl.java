@@ -2,10 +2,14 @@ package com.lti.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.stereotype.Repository;
 
 import com.lti.dto.Login;
+import com.lti.email.SendMail;
+import com.lti.entity.User;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,6 +39,23 @@ public class UserRepositoryImpl implements UserRepository {
 	public <E> E fetch(Class<E> clazz, Object pk) {
 		E e = entityManager.find(clazz, pk); 
 		return e;
+	}
+	
+	@Transactional(value = TxType.REQUIRED)
+	@Override
+	public void updateUserStatus(int userId, String status) {
+		// TODO Auto-generated method stub
+		User user = entityManager.find(User.class, userId);
+		if (status.equalsIgnoreCase("Approved")) {
+			user.setStatus(status);
+
+			entityManager.merge(user);
+			SendMail.SuccessMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
+		} else {
+			entityManager.remove(user);
+			SendMail.DeclinedMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
+		}
+		
 	}
 	
 

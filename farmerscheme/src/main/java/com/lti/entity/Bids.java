@@ -24,18 +24,18 @@ public class Bids {
 	@ManyToOne
 	private Bidder bidder;
 
-	@ManyToOne
-	private Crop crop;
+//	@ManyToOne
+//	private Crop crop;
 
 	private String status;
 
-	public Bids(int bidId, int bidAmount, Bidder bidder, Crop crop, String status) {
-		this.bidId = bidId;
-		this.bidAmount = bidAmount;
-		this.bidder = bidder;
-		this.crop = crop;
-		this.status = status;
-	}
+//	public Bids(int bidId, int bidAmount, Bidder bidder, Crop crop, String status) {
+//		this.bidId = bidId;
+//		this.bidAmount = bidAmount;
+//		this.bidder = bidder;
+//		this.crop = crop;
+//		this.status = status;
+//	}
 
 	public Bids() {
 		// TODO Auto-generated constructor stub
@@ -65,13 +65,13 @@ public class Bids {
 		this.bidder = bidder;
 	}
 
-	public Crop getCrop() {
-		return crop;
-	}
-
-	public void setCrop(Crop crop) {
-		this.crop = crop;
-	}
+//	public Crop getCrop() {
+//		return crop;
+//	}
+//
+//	public void setCrop(Crop crop) {
+//		this.crop = crop;
+//	}
 
 	public String getStatus() {
 		return status;
