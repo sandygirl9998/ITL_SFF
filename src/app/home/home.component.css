@@ -1,0 +1,121 @@
+.content
+{
+  display: flex;
+  flex-direction: column;
+  margin: 3% 18% 8%;
+  align-self: center;
+  padding: 3% 3%;
+  background: rgba(0,0,0,0.4);
+  text-align: center;
+  border-radius: 20px;
+  height: 60%;
+
+}
+.title
+{
+  font-family: Baskerville;
+  color: white;
+  font-size: 45px;
+  margin: 5px 0;
+}
+.tagline
+{
+  font-family: Baskerville;
+  color: rgb(243, 252, 193);
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.subtitle
+{
+  margin: 0 0 15px;
+  font-family: Baskerville;
+  color: white;
+  font-size: 30px
+}
+
+.regbtn
+{
+  color: white;
+  font-family: "Noto Sans Glagolitic";
+  border-radius: 20px;
+  background-color:rgb(33, 109, 3);
+  align-items: center;
+  width: fit-content;
+  padding: 10px 13px;
+  font-size: 20px;
+  line-height: 20px;
+  display: inline-block;
+  margin: 20px;
+}
+
+
+
+.about-content
+{
+  margin: 0 3em;
+  font-size: 10px;
+  color: rgb(239, 248, 200);
+  font-family: "Noto Sans Glagolitic";
+
+}
+/*try*/
+.item-1, 
+.item-2, 
+.item-3 ,
+.item-4{
+  align-content: center;
+	position: absolute;
+  display: block;
+	 top: 22em; 
+  
+  width: 60%;
+  
+  font-size: 2em;
+
+	animation-duration: 20s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.item-1{
+	animation-name: anim-1;
+}
+
+.item-2{
+	animation-name: anim-2;
+}
+
+.item-3{
+	animation-name: anim-3;
+}
+
+.item-4{
+	animation-name: anim-4;
+}
+
+
+@keyframes anim-1 {
+	0%, 8.3% { left: -100%; opacity: 0; }
+  8.3%,25% { left: 25%; opacity: 1; }
+  33.33%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-2 {
+	0%, 33.33% { left: -100%; opacity: 0; }
+  41.63%, 58.29% { left: 25%; opacity: 1; }
+  66.66%, 100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-3 {
+	0%, 66.66% { left: -100%; opacity: 0; }
+  74.96%, 91.62% { left: 25%; opacity: 1; }
+  96.66%,100% { left: 110%; opacity: 0; }
+}
+
+@keyframes anim-4 {
+	0%, 96.66% { left: -100%; opacity: 0; }
+  108.29%, 124.95% { left: 25%; opacity: 1; }
+  126.66%,100% { left: 110%; opacity: 0; }
+}
+
