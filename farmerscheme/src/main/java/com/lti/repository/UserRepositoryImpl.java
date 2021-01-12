@@ -50,10 +50,11 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setStatus(status);
 
 			entityManager.merge(user);
-			SendMail.SuccessMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
+//			Commenting this as of now
+//			SendMail.SuccessMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
 		} else {
 			entityManager.remove(user);
-			SendMail.DeclinedMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
+//			SendMail.DeclinedMail(user.getEmailId(),user.getPassword(),user.getName(), user.getRole());
 		}
 		
 	}
