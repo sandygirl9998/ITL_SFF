@@ -1,11 +1,13 @@
 package com.lti.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.Login;
 import com.lti.dto.LoginStatus;
@@ -15,7 +17,8 @@ import com.lti.entity.User;
 import com.lti.exception.UserServiceException;
 import com.lti.service.UserService;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 	@Autowired
@@ -43,7 +46,7 @@ public class UserController {
 	}
 	
 	//for farmer and bidder approval
-			@PostMapping(value = "/userstatus")
+			@PutMapping(value = "/userstatus")
 			public @ResponseBody Status updateUserStatus(@RequestParam("userStatus") String userStatus, @RequestParam("userId") int userId) {
 				userService.updateStatus(userId, userStatus);
 				Status status = new Status();
