@@ -18,6 +18,7 @@ public class FarmerRepoImpl implements FarmerRepo {
 
 	@Override
 	public void save(Farmer farmer) {
+		farmer.setRole("Farmer");
 		em.persist(farmer);
 	}
 

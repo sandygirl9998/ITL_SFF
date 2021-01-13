@@ -16,6 +16,7 @@ public class BidderRepoImpl implements BidderRepo {
 
 	@Override
 	public void save(Bidder bidder) {
+		bidder.setRole("Bidder");
 		em.persist(bidder);
 	}
 

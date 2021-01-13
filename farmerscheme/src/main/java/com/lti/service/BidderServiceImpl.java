@@ -29,7 +29,24 @@ public class BidderServiceImpl implements BidderService {
 			//code to send email to the customer on successful registration will be here
 			}
 	}
-
+	public void updateAadhar(String emailId, String newFileName) {
+		int id = userRepository.fetchByEmail(emailId);
+		Bidder bidder=userRepository.fetch(Bidder.class, id);
+		bidder.setBidderAADHAR(newFileName);
+		bidderRepository.updateBidder(bidder);
+		}
+	public void updatePAN(String emailId, String newFileName) {
+		int id = userRepository.fetchByEmail(emailId);
+		Bidder bidder=userRepository.fetch(Bidder.class, id);
+		bidder.setBidderPAN(newFileName);
+		bidderRepository.updateBidder(bidder);
+		}
+	public void updateLicense(String emailId, String newFileName) {
+		int id = userRepository.fetchByEmail(emailId);
+		Bidder bidder=userRepository.fetch(Bidder.class, id);
+		bidder.setBidderLicense(newFileName);
+		bidderRepository.updateBidder(bidder);
+		}
 		
 	}
 
