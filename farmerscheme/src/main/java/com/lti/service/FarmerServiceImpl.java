@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lti.entity.Farmer;
+import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.FarmerRepo;
 import com.lti.repository.UserRepository;
@@ -30,12 +31,22 @@ public class FarmerServiceImpl implements FarmerService {
 		}
 	}
 
+		@Override
+		public void insure(int fid, Insurance insurance) {
+			farmerRepository.addInsurance(fid, insurance);
+			
+		}
+
+			
+		
+
 	public void updateAadhar(String emailId, String newFileName) {
 		int id = userRepository.fetchByEmail(emailId);
 		Farmer farmer = userRepository.fetch(Farmer.class, id);
 		farmer.setFarmerAADHAR(newFileName);
 		farmerRepository.updateFarmer(farmer);
 	}
+
 
 	public void updatePAN(String emailId, String newFileName) {
 		int id = userRepository.fetchByEmail(emailId);

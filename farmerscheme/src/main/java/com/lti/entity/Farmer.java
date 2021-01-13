@@ -1,10 +1,19 @@
 package com.lti.entity;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 @Table(name = "Farmer")
@@ -42,6 +51,14 @@ public class Farmer extends User {
 	private String farmerLandArea;
 	@Column(length = 10)
 	private String farmerContact;
+	
+	
+	@OneToMany(cascade = { CascadeType.ALL })
+
+	@JsonIgnore
+
+	
+	private List<Insurance> insurance = new ArrayList<Insurance>();
 
 	public String getFarmerContact() {
 		return farmerContact;
@@ -157,6 +174,14 @@ public class Farmer extends User {
 
 	public void setFarmerLandArea(String farmerLandArea) {
 		this.farmerLandArea = farmerLandArea;
+	}
+
+	public List<Insurance> getInsurance() {
+		return insurance;
+	}
+
+	public void setInsurance(List<Insurance> insurance) {
+		this.insurance = insurance;
 	}
 
 

@@ -11,6 +11,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import com.lti.dto.Document;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entity.Farmer;
+import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.UserRepository;
 import com.lti.service.FarmerService;
@@ -48,6 +50,24 @@ public class FarmerController {
 			return s;
 		}
 	}
+	@PostMapping("/apply")
+	public @ResponseBody Status apply(@RequestParam("fid") int fid, @RequestBody Insurance insurance) {
+		
+		try {
+            Status s=new Status();
+            farmerService.insure(fid, insurance);
+            s.setStatus(StatusType.SUCCESS);
+            s.setMessage("Sell request placed successfully");
+            return s;
+        }
+        catch(UserServiceException e) {
+            Status s=new Status();
+            s.setStatus(StatusType.FAILED);
+            s.setMessage(e.getMessage());
+            return s;
+        }
+		
+}
 	
 	@PostMapping("/farmer-doc")
 	public @ResponseBody Status upload(Document document,HttpServletRequest request) {

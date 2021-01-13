@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.lti.entity.Farmer;
+import com.lti.entity.Insurance;
 
 @Repository
 @Transactional
@@ -30,6 +31,19 @@ public class FarmerRepoImpl implements FarmerRepo {
 	public void updateFarmer(Farmer farmer) {
 		em.merge(farmer);
 
+	}
+
+
+	@Override
+	public void addInsurance(int farmerId, Insurance insurance) {
+		Farmer farmer=em.find(Farmer.class,farmerId);
+		System.out.println("hello");
+		farmer.getInsurance().add(insurance);
+		System.out.println("hello");
+		em.persist(insurance);
+		System.out.println("hello");
+		em.merge(farmer);
+		
 	}
 
 }
