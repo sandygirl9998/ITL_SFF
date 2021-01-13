@@ -59,5 +59,11 @@ public class UserRepositoryImpl implements UserRepository {
 		
 	}
 	
+	public int fetchByEmail(String email) {
+		return  (Integer)entityManager
+				.createQuery("select u.userId from User u WHERE u.emailId=:uname ")
+				.setParameter("uname", email).getSingleResult();
+	}
+	
 
 }

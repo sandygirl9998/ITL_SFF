@@ -10,6 +10,7 @@ public interface UserRepository  {
 	public int findAccount(Login login) ;		
 	void updateUserStatus(int userId, String status);
 	public <E> E fetch(Class<E> clazz, Object pk) ;
+	public int fetchByEmail(String email);
 	
 	
 
