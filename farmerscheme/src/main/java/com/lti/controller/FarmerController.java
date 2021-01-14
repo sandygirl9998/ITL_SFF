@@ -3,12 +3,14 @@ package com.lti.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +23,7 @@ import com.lti.dto.Status.StatusType;
 import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
+import com.lti.repository.Policies;
 import com.lti.repository.UserRepository;
 import com.lti.service.FarmerService;
 
@@ -109,4 +112,9 @@ public class FarmerController {
 		status.setMessage("Documents uploaded!");
 		return status;
 	}
+	@GetMapping(value="/listpolicies",produces="application/json")
+	public List<Policies> getInsurances(@RequestParam("fid")int farmerid){
+		System.out.println("hello");
+	return farmerService.policies(farmerid);
+}
 }

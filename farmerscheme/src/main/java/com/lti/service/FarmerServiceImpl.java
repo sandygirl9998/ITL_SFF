@@ -1,5 +1,7 @@
 package com.lti.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.FarmerRepo;
+import com.lti.repository.Policies;
 import com.lti.repository.UserRepository;
 
 @Service
@@ -62,4 +65,9 @@ public class FarmerServiceImpl implements FarmerService {
 		farmerRepository.updateFarmer(farmer);
 	}
 
+	@Override
+	public List<Policies> policies(int farmerid) {
+		System.out.println("hello");
+		return farmerRepository.getinsurance(farmerid);
+	}
 }
