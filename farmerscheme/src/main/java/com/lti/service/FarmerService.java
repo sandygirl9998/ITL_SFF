@@ -2,7 +2,9 @@ package com.lti.service;
 
 import java.util.List;
 
+
 import com.lti.entity.Crop;
+
 import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.repository.Policies;
@@ -18,6 +20,8 @@ public interface FarmerService {
 
 	void addCrop(int farmerId, Crop crop);
 	List<Policies> policies(int farmerid);
+
+
 
 
 }

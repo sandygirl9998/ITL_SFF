@@ -61,7 +61,7 @@ public class FarmerController {
             Status s=new Status();
             farmerService.insure(fid, insurance);
             s.setStatus(StatusType.SUCCESS);
-            s.setMessage("Sell request placed successfully");
+            s.setMessage("Insurance applied successfully");
             return s;
         }
         catch(UserServiceException e) {
@@ -113,6 +113,7 @@ public class FarmerController {
 		status.setMessage("Documents uploaded!");
 		return status;
 	}
+
 	
 	//Placing Sell Request
 	@PostMapping(value="/addCrop")
@@ -132,6 +133,7 @@ public class FarmerController {
 		}
 	}
 	
+
 	@GetMapping(value="/listpolicies",produces="application/json")
 	public List<Policies> getInsurances(@RequestParam("fid")int farmerid){
 		System.out.println("hello");

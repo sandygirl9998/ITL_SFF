@@ -74,10 +74,10 @@ public class FarmerServiceImpl implements FarmerService {
 		
 	}
 	
+
 	@Override
 	public List<Policies> policies(int farmerid) {
 		System.out.println("hello");
 		return farmerRepository.getinsurance(farmerid);
 	}
-
 }
