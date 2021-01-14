@@ -1,5 +1,7 @@
 package com.lti.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -48,5 +50,14 @@ public class BidderRepoImpl implements BidderRepo {
        
        
     }
+
+
+	@Override
+	public List<Bids> viewOwnBids(int bidderid) {
+		// TODO Auto-generated method stub
+		Bidder b = em.find(Bidder.class, bidderid);
+        List<Bids> bids = b.getBids();
+        return bids;
+	}
 
 }

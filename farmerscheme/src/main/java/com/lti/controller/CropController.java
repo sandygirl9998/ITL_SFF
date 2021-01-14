@@ -10,9 +10,12 @@ import javax.transaction.Transactional.TxType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lti.dto.SoldHistory;
 import com.lti.dto.ViewCrop;
+import com.lti.entity.Bids;
 import com.lti.entity.Crop;
 import com.lti.repository.CropRepo;
 import com.lti.service.CropService;
@@ -49,6 +52,22 @@ public class CropController {
             entityManager.merge(crop);
         }
         return crops;
+    }
+	
+	@GetMapping(value = "/viewmarketplace")
+    public List<Crop> viewMarketPlace(@RequestParam int farmerid) {
+        return cropService.cropsInMarket(farmerid);
+    }
+    @GetMapping(value = "/viewmarketplace1")
+    public List<Bids> viewPreviousBids(@RequestParam int cropid) {
+        return cropService.viewPreviousBids(cropid);
+    }
+
+ 
+
+    @GetMapping(value = "/soldhistory")
+    public List<SoldHistory> cropSoldHistory(@RequestParam int farmerid) {
+        return cropService.cropSoldHistory(farmerid);
     }
 	
 

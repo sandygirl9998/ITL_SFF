@@ -76,5 +76,15 @@ public class AdminController {
 		status.setMessage("Approval Done");
 		return status;
 	}
+	
+	// Admin--Approve claim request
+		@PutMapping(value = "/approveClaimRequest")
+		public @ResponseBody Status updateClaimRequest(@RequestParam("claimId") int claimId) {
+			adminService.updateClaimRequest(claimId);
+			Status status = new Status();
+			status.setStatus(StatusType.SUCCESS);
+			status.setMessage("Approval Done");
+			return status;
+		}
 
 }

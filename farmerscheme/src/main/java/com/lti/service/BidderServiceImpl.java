@@ -1,5 +1,7 @@
 package com.lti.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,11 @@ public class BidderServiceImpl implements BidderService {
 	public void placeBid(int bidderid, int cropid, Bids bid) {
 		bidderRepository.makeBid(bidderid, cropid, bid);
 		
+	}
+	@Override
+	public List<Bids> viewOwnBids(int bidderid) {
+		// TODO Auto-generated method stub
+		return bidderRepository.viewOwnBids(bidderid);
 	}
 	
 	

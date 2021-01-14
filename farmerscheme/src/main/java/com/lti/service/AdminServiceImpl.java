@@ -55,4 +55,11 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Override
+	public void updateClaimRequest(int claimId) {
+		// TODO Auto-generated method stub
+		repo.updateClaimRequest(claimId);
+		
+	}
+
 }
