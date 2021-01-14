@@ -1,12 +1,22 @@
 package com.lti.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Bidder")
@@ -47,6 +57,32 @@ public class Bidder extends User {
 
 	@Column(length = 100, table = "bidder_doc")
 	private String bidderLicense;
+	
+	@OneToMany(mappedBy="bidder",fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@JsonIgnore
+	private List<Bids> bids = new ArrayList<Bids>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "bidder_crop", joinColumns = { @JoinColumn(name = "bidderid") }, inverseJoinColumns = {
+			@JoinColumn(name = "cropId") })
+	@JsonIgnore
+	private List<Crop> crop = new ArrayList<Crop>();
+
+	public List<Crop> getCrop() {
+		return crop;
+	}
+
+	public void setCrop(List<Crop> crop) {
+		this.crop = crop;
+	}
+
+	public List<Bids> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bids> bids) {
+		this.bids = bids;
+	}
 
 	public Bidder() {
 		// TODO Auto-generated constructor stub

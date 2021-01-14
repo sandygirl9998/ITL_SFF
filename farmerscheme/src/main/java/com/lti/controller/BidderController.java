@@ -11,6 +11,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +19,13 @@ import com.lti.dto.Document;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entity.Bidder;
+import com.lti.entity.Bids;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.UserRepository;
 import com.lti.service.BidderService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BidderController {
 	
 	@Autowired
@@ -88,4 +90,21 @@ public class BidderController {
 		status.setMessage("Documents uploaded!");
 		return status;
 	}
+	
+	@PostMapping("/placebid")
+    public @ResponseBody Status bidding(@RequestParam int bidderid,@RequestParam int cropid,@RequestBody Bids bid) {
+        try {
+            Status s= new Status();
+            bidderService.placeBid(bidderid,cropid,bid);
+            s.setStatus(StatusType.SUCCESS);
+            s.setMessage("Bid made successfully");
+            return s;
+        }
+        catch(UserServiceException e) {
+            Status s= new Status();
+            s.setStatus(StatusType.FAILED);
+            s.setMessage(e.getMessage());
+            return s;
+        }
+}
 }

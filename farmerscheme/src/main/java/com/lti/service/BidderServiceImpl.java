@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lti.entity.Bidder;
+import com.lti.entity.Bids;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.BidderRepo;
 import com.lti.repository.UserRepository;
@@ -47,6 +48,13 @@ public class BidderServiceImpl implements BidderService {
 		bidder.setBidderLicense(newFileName);
 		bidderRepository.updateBidder(bidder);
 		}
+	@Override
+	public void placeBid(int bidderid, int cropid, Bids bid) {
+		bidderRepository.makeBid(bidderid, cropid, bid);
+		
+	}
+	
+	
 		
 	}
 

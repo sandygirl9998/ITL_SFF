@@ -1,11 +1,14 @@
 package com.lti.entity;
 
+import javax.persistence.CascadeType;
 //import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.ManyToOne;
 //import javax.persistence.OneToOne;
@@ -16,19 +19,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Insurance")
-@SequenceGenerator(name="insuranceSeq", sequenceName = "insurance_seq8", initialValue = 1001, allocationSize = 1)
-
+@SequenceGenerator(name="inSeq", sequenceName = "inSeq", initialValue = 1001, allocationSize = 1)
 public class Insurance {
 	@Id
-	@GeneratedValue(generator = "insuranceSeq",strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "inSeq",strategy = GenerationType.SEQUENCE)
 	private int policyId;
 
 	
-	/*
-	 * @OneToOne(mappedBy = "insurance",cascade = CascadeType.ALL)
-	 * 
-	 * private InsuranceClaim claim;
-	 */
 	
 	@Column(length=10)
 	private String season;
@@ -47,6 +44,10 @@ public class Insurance {
 	@Column(length=15)
 	private String crop_name;
 	
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="claimId")
+	private ClaimInsurance claim;
 	
 	
 	public String getYear() {
@@ -118,13 +119,12 @@ public class Insurance {
 		this.policyCompany = policyCompany;
 	}
 	
-	
-	/*
-	 * public InsuranceClaim getClaim() { return claim; } public void
-	 * setClaim(InsuranceClaim claim) { this.claim = claim; }
-	 */
-	
-
+	public ClaimInsurance getClaim() {
+		return claim;
+	}
+	public void setClaim(ClaimInsurance claim) {
+		this.claim = claim;
+	}
 
 	
 }

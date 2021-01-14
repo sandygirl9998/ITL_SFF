@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.lti.entity.Bidder;
+import com.lti.entity.Bids;
+import com.lti.entity.Crop;
 
 @Repository
 @Transactional
@@ -32,5 +34,19 @@ public class BidderRepoImpl implements BidderRepo {
 		em.merge(bidder);
 
 	}
+	
+	@Override
+    public void makeBid(int bidderid, int cropid, Bids bid) {
+        Bidder bidder=em.find(Bidder.class, bidderid);
+        bidder.getBids().add(bid);
+        Crop c=em.find(Crop.class,cropid);
+        c.getBids().add(bid);
+        bid.setCrop(c);
+        bid.setBidder(bidder);
+        em.persist(bid);
+        em.merge(bidder);
+       
+       
+    }
 
 }

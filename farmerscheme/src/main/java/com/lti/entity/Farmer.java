@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -51,6 +52,18 @@ public class Farmer extends User {
 	private String farmerLandArea;
 	@Column(length = 10)
 	private String farmerContact;
+	
+	@OneToMany(mappedBy="farmer", cascade = { CascadeType.REMOVE },fetch=FetchType.EAGER)
+	@JsonIgnore
+	private List<Crop> crops = new ArrayList<Crop>();
+    
+	public List<Crop> getCrops() {
+		return crops;
+	}
+
+	public void setCrops(List<Crop> crops) {
+		this.crops = crops;
+	}
 	
 	
 	@OneToMany(cascade = { CascadeType.ALL })

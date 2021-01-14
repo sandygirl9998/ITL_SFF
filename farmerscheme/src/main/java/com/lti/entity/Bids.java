@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -22,12 +23,13 @@ public class Bids {
 	private int bidAmount;
 
 	@ManyToOne
+	@JoinColumn(name="bidderid")
 	private Bidder bidder;
 
-//	@ManyToOne
-//	private Crop crop;
+	@ManyToOne
+	private Crop crop;
 
-	private String status;
+	private String status="Pending";
 
 //	public Bids(int bidId, int bidAmount, Bidder bidder, Crop crop, String status) {
 //		this.bidId = bidId;
@@ -65,13 +67,13 @@ public class Bids {
 		this.bidder = bidder;
 	}
 
-//	public Crop getCrop() {
-//		return crop;
-//	}
-//
-//	public void setCrop(Crop crop) {
-//		this.crop = crop;
-//	}
+	public Crop getCrop() {
+		return crop;
+	}
+
+	public void setCrop(Crop crop) {
+		this.crop = crop;
+	}
 
 	public String getStatus() {
 		return status;
