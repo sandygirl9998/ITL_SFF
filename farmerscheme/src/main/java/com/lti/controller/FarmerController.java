@@ -57,7 +57,7 @@ public class FarmerController {
             Status s=new Status();
             farmerService.insure(fid, insurance);
             s.setStatus(StatusType.SUCCESS);
-            s.setMessage("Sell request placed successfully");
+            s.setMessage("Insurance applied successfully");
             return s;
         }
         catch(UserServiceException e) {
