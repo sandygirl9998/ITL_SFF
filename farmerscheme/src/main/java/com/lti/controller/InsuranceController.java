@@ -34,7 +34,7 @@ public class InsuranceController {
 	}
 
 	@GetMapping("/fetchpolicy")
-	public Insurance FetchPolicy(@RequestParam int id) {
+	public @ResponseBody Insurance FetchPolicy(@RequestParam int id) {
 		return insuranceService.search(id);
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lti.entity.Crop;
+import com.lti.entity.Insurance;
 import com.lti.entity.User;
 import com.lti.repository.AdminRepo;
 @Service
@@ -60,6 +61,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		repo.updateClaimRequest(claimId);
 		
+	}
+
+	@Override
+	public List<Insurance> viewAllPolicy() {
+		// TODO Auto-generated method stub
+		return repo.viewAllPolicy();
 	}
 
 }

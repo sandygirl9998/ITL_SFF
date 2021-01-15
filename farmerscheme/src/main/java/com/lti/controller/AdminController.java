@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entity.Crop;
+import com.lti.entity.Insurance;
 import com.lti.entity.User;
 import com.lti.service.AdminService;
 
@@ -86,5 +87,13 @@ public class AdminController {
 			status.setMessage("Approval Done");
 			return status;
 		}
+		
+		// fetch crops sell request placed by farmer
+		@GetMapping(value = "/viewPolicy", produces = "application/json")
+		public List<Insurance> viewAllPolicy() {
+			return adminService.viewAllPolicy();
+		}
+		
+	
 
 }

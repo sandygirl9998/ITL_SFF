@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 //import javax.persistence.JoinColumn;
 //import javax.persistence.ManyToOne;
@@ -48,6 +49,18 @@ public class Insurance {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="claimId")
 	private ClaimInsurance claim;
+	
+	@ManyToOne
+	@JoinColumn(name="farmerid")
+	private Farmer farmer;
+	
+	public Farmer getFarmer() {
+		return farmer;
+	}
+
+	public void setFarmer(Farmer farmer) {
+		this.farmer = farmer;
+	}
 	
 	
 	public String getYear() {

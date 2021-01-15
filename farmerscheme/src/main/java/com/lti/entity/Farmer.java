@@ -66,11 +66,10 @@ public class Farmer extends User {
 	}
 	
 	
-	@OneToMany(cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy="farmer", cascade = { CascadeType.ALL })
 
 	@JsonIgnore
 
-	
 	private List<Insurance> insurance = new ArrayList<Insurance>();
 
 	public String getFarmerContact() {

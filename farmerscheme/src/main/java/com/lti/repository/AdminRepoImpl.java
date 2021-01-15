@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.lti.entity.Bids;
 import com.lti.entity.ClaimInsurance;
 import com.lti.entity.Crop;
+import com.lti.entity.Insurance;
 import com.lti.entity.User;
 
 @Repository
@@ -116,6 +117,14 @@ public class AdminRepoImpl implements AdminRepo {
 		claim.setStatus("Approved");
 		em.merge(claim);
 		
+	}
+	
+	@Transactional(value = TxType.REQUIRED)
+	@Override
+	public List<Insurance> viewAllPolicy() {
+		TypedQuery<Insurance> q = em.createQuery("FROM Insurance ", Insurance.class);
+		List<Insurance> lu = q.getResultList();
+		return lu;
 	}
 
 }

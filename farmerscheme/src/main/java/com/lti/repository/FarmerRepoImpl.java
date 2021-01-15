@@ -44,6 +44,7 @@ public class FarmerRepoImpl implements FarmerRepo {
 		System.out.println("hello");
 		farmer.getInsurance().add(insurance);
 		System.out.println("hello");
+		insurance.setFarmer(farmer);
 		em.persist(insurance);
 		System.out.println("hello");
 		em.merge(farmer);

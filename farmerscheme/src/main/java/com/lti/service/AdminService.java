@@ -3,6 +3,7 @@ package com.lti.service;
 import java.util.List;
 
 import com.lti.entity.Crop;
+import com.lti.entity.Insurance;
 import com.lti.entity.User;
 
 public interface AdminService {
@@ -14,5 +15,6 @@ public interface AdminService {
 	public void updateCropSellRequest(int userId, int cropId,String cropSoldStatus, String adminApproval);
 	void finalizeAuction(int cropId);
 	void updateClaimRequest(int claimId);
+	List<Insurance> viewAllPolicy();
 
 }
