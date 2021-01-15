@@ -15,5 +15,5 @@ public interface FarmerRepo {
 
 	void sellRequest(int farmerId, Crop crop);
 
-	List<Policies> getinsurance(int farmerid);
+	List<Insurance> getinsurance(int farmerid);
 }

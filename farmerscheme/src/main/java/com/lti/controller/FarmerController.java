@@ -135,7 +135,7 @@ public class FarmerController {
 	
 
 	@GetMapping(value="/listpolicies",produces="application/json")
-	public List<Policies> getInsurances(@RequestParam("fid")int farmerid){
+	public List<Insurance> getInsurances(@RequestParam("fid")int farmerid){
 		System.out.println("hello");
 	return farmerService.policies(farmerid);
 }

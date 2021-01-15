@@ -19,7 +19,7 @@ public interface FarmerService {
 	public void updateCertificate(String emailId,String newFileName);
 
 	void addCrop(int farmerId, Crop crop);
-	List<Policies> policies(int farmerid);
+	List<Insurance> policies(int farmerid);
 
 
 

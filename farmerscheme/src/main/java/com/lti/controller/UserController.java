@@ -27,23 +27,24 @@ public class UserController {
 	
 	
 	@PostMapping("/login")
-	public @ResponseBody LoginStatus login(@RequestBody Login login) {
-		try {
-			User user = userService.login(login);
-			LoginStatus status = new LoginStatus();
-			status.setStatus(StatusType.SUCCESS);
-			status.setMessage("Login Successful!");
-			status.setCustomerId(user.getUserId());
-			status.setCustomerName(user.getName());
-			return status;
-		}
-		catch(UserServiceException e) {
-			LoginStatus status = new LoginStatus();
-			status.setStatus(StatusType.FAILED);
-			status.setMessage(e.getMessage());
-			return status;			
-		}
-	}
+    public @ResponseBody LoginStatus login(@RequestBody Login login) {
+        try {
+            User user = userService.login(login);
+            LoginStatus status = new LoginStatus();
+            status.setStatus(StatusType.SUCCESS);
+            status.setMessage("Login Successful!");
+            status.setUserId(user.getUserId());
+            status.setUsername(user.getName());
+            status.setRole(login.getRole());
+            return status;
+        }
+        catch(UserServiceException e) {
+            LoginStatus status = new LoginStatus();
+            status.setStatus(StatusType.FAILED);
+            status.setMessage(e.getMessage());
+            return status;           
+        }
+    }
 	
 	//for farmer and bidder approval
 			@PutMapping(value = "/userstatus")
