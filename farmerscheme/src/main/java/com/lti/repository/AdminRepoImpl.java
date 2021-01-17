@@ -10,11 +10,15 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.lti.email.SendMail;
+import com.lti.entity.Bidder;
 import com.lti.entity.Bids;
 import com.lti.entity.ClaimInsurance;
 import com.lti.entity.Crop;
+import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.entity.User;
 
@@ -23,6 +27,9 @@ public class AdminRepoImpl implements AdminRepo {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Autowired
+	private SendMail sendMail;
 
 	@Override
 	public List<User> fStatusInQueue() {
@@ -64,13 +71,15 @@ public class AdminRepoImpl implements AdminRepo {
 		if (adminApproval.equalsIgnoreCase("Approved")) {
 			crop.setAdminApproval(adminApproval);
 			crop.setCropSoldStatus(cropSoldStatus);
+			User user=crop.getFarmer();
 			em.merge(crop);
-			// SendMail.SuccessMail(user.getEmailId(),user.getPassword(),user.getName(),
-			// user.getRole());
+			sendMail.CropAccept(user.getEmailId(),crop.getCropId(),crop.getCropName());
+			
 		} else {
+			User user=crop.getFarmer();
 			em.remove(crop);
-			// SendMail.DeclinedMail(user.getEmailId(),user.getPassword(),user.getName(),
-			// user.getRole());
+			sendMail.CropReject(user.getEmailId(),crop.getCropName());
+			
 		}
 
 	}
@@ -93,15 +102,19 @@ public class AdminRepoImpl implements AdminRepo {
 		crop.setCropSoldStatus("Sold");
 		crop.setCropSoldPrice((double) crop.getCurrentBid());
 		crop.setCropSoldDate(date);
+		User user=crop.getFarmer();
 		em.merge(crop);
+		
 		double soldPrice = crop.getCropSoldPrice();
-
+		sendMail.bidSuccessFarmer(user.getEmailId(),crop.getCropId(),crop.getCropName(),crop.getCropSoldPrice());
 		Query q = em.createQuery("from Bids where crop_crop_id=:id");
 		q.setParameter("id", cropId);
 		List<Bids> bids = q.getResultList();
 		for (Bids bids2 : bids) {
 			if (bids2.getBidAmount() == soldPrice) {
 				bids2.setStatus("Success");
+				Bidder bidder=bids2.getBidder();
+				sendMail.bidSuccessBidder(bidder.getEmailId(),crop.getCropId(),crop.getCropName(),crop.getCropSoldPrice(),bids2.getBidId());
 			} else {
 				bids2.setStatus("Gone");
 			}
@@ -111,12 +124,35 @@ public class AdminRepoImpl implements AdminRepo {
 
 	@Transactional(value = TxType.REQUIRED)
 	@Override
-	public void updateClaimRequest(int claimId) {
+	public void updateClaimRequest(int claimId, String claimStatus) {
 		// TODO Auto-generated method stub
 		ClaimInsurance claim = em.find(ClaimInsurance.class, claimId);
-		claim.setStatus("Approved");
-		em.merge(claim);
+		Query q=em.createQuery("FROM Insurance where claim_id=:id");
+		q.setParameter("id", claimId);
+		List<Insurance> insurance=q.getResultList();
 		
+		if (claimStatus.equalsIgnoreCase("Approved")) {
+			claim.setStatus("Approved");
+			em.merge(claim);
+			for (Insurance i : insurance) {
+				System.out.println("Claimed");
+				i.setPolicyStatus("Claimed");
+				Farmer farmer=i.getFarmer();
+				sendMail.claimSuccess(farmer.getEmailId(),i.getPolicyId());
+				em.merge(i);
+			}
+
+		}
+		else {
+			claim.setStatus("Declined");
+			em.merge(claim);
+			for (Insurance i : insurance) {
+				Farmer farmer=i.getFarmer();
+				sendMail.claimDeclined(farmer.getEmailId(),i.getPolicyId());
+				
+			}
+
+		}
 	}
 	
 	@Transactional(value = TxType.REQUIRED)

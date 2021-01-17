@@ -57,9 +57,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void updateClaimRequest(int claimId) {
+	public void updateClaimRequest(int claimId, String claimStatus) {
 		// TODO Auto-generated method stub
-		repo.updateClaimRequest(claimId);
+		repo.updateClaimRequest(claimId,claimStatus);
 		
 	}
 

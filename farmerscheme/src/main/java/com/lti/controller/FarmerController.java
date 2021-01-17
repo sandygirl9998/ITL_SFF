@@ -24,87 +24,86 @@ import com.lti.entity.Crop;
 import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
-import com.lti.repository.Policies;
 import com.lti.repository.UserRepository;
 import com.lti.service.FarmerService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FarmerController {
-	
+
 	@Autowired
 	private FarmerService farmerService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@PostMapping("/fregister")
 	public @ResponseBody Status register(@RequestBody Farmer farmer) {
 		try {
-			Status s= new Status();
+			Status s = new Status();
 			farmerService.add(farmer);
 			s.setStatus(StatusType.SUCCESS);
 			s.setMessage("Registration Successful!");
 			return s;
-		}
-		catch(UserServiceException e) {
-			Status s= new Status();			
+		} catch (UserServiceException e) {
+			Status s = new Status();
 			s.setStatus(StatusType.FAILED);
 			s.setMessage(e.getMessage());
 			return s;
 		}
 	}
+
 	@PostMapping("/apply")
 	public @ResponseBody Status apply(@RequestParam("fid") int fid, @RequestBody Insurance insurance) {
-		
+
 		try {
-            Status s=new Status();
-            farmerService.insure(fid, insurance);
-            s.setStatus(StatusType.SUCCESS);
-            s.setMessage("Insurance applied successfully");
-            return s;
-        }
-        catch(UserServiceException e) {
-            Status s=new Status();
-            s.setStatus(StatusType.FAILED);
-            s.setMessage(e.getMessage());
-            return s;
-        }
-		
-}
-	
+			Status s = new Status();
+			farmerService.insure(fid, insurance);
+			s.setStatus(StatusType.SUCCESS);
+			s.setMessage("Insurance applied successfully");
+			return s;
+		} catch (UserServiceException e) {
+			Status s = new Status();
+			s.setStatus(StatusType.FAILED);
+			s.setMessage(e.getMessage());
+			return s;
+		}
+
+	}
+
 	@PostMapping("/farmer-doc")
-	public @ResponseBody Status upload(Document document,HttpServletRequest request) {
-		String projPath = request.getServletContext().getRealPath("/");
-		String imgUploadLocation = projPath + "/assets/";
+	public @ResponseBody Status upload(Document document, HttpServletRequest request) {
+//		String projPath = request.getServletContext().getRealPath("/");
+//		String imgUploadLocation = projPath + "/assets/";
+		String imgUploadLocation = "d:/uploads/";
 		System.out.println(imgUploadLocation);
-		//creating this downloads folder in case if it doesn't exist
+		// creating this downloads folder in case if it doesn't exist
 		File f = new File(imgUploadLocation);
-		if(!f.exists())
+		if (!f.exists())
 			f.mkdir();
 		String emailId = document.getEmailId();
-		int id=userRepository.fetchByEmail(document.getEmailId());
+		int id = userRepository.fetchByEmail(document.getEmailId());
 		String uploadedAadharFileName = document.getAadhar().getOriginalFilename();
 		String uploadedPANFileName = document.getPAN().getOriginalFilename();
 		String uploadedCertificateFileName = document.getCertificate().getOriginalFilename();
-		String newFileName = id + "-" + uploadedAadharFileName;
-		String newFileName1 = id + "-" + uploadedPANFileName;
-		String newFileName2 = id + "-" + uploadedCertificateFileName;
+		String newFileName = id + "-" + "Aadhar" + "-" + uploadedAadharFileName;
+		String newFileName1 = id + "-" + "PAN" + "-" + uploadedPANFileName;
+		String newFileName2 = id + "-" + "Cert" + "-" + uploadedCertificateFileName;
 		String targetFileName = imgUploadLocation + newFileName;
-		String targetFileName1= imgUploadLocation + newFileName1;
+		String targetFileName1 = imgUploadLocation + newFileName1;
 		String targetFileName2 = imgUploadLocation + newFileName2;
 		try {
 			FileCopyUtils.copy(document.getAadhar().getInputStream(), new FileOutputStream(targetFileName));
 			FileCopyUtils.copy(document.getPAN().getInputStream(), new FileOutputStream(targetFileName1));
 			FileCopyUtils.copy(document.getCertificate().getInputStream(), new FileOutputStream(targetFileName2));
-		} catch(IOException e) {
-			e.printStackTrace(); //hoping no error would occur
+		} catch (IOException e) {
+			e.printStackTrace(); // hoping no error would occur
 			Status status = new Status();
 			status.setStatus(StatusType.FAILED);
 			status.setMessage("File upload failed!");
 			return status;
 		}
-		
+
 		farmerService.updateAadhar(emailId, newFileName);
 		farmerService.updatePAN(emailId, newFileName1);
 		farmerService.updateCertificate(emailId, newFileName2);
@@ -114,29 +113,26 @@ public class FarmerController {
 		return status;
 	}
 
-	
-	//Placing Sell Request
-	@PostMapping(value="/addCrop")
+	// Placing Sell Request
+	@PostMapping(value = "/addCrop")
 	public @ResponseBody Status addCrop(@RequestParam("farmerId") int farmerId, @RequestBody Crop crop) {
 		try {
-			Status s=new Status();
+			Status s = new Status();
 			farmerService.addCrop(farmerId, crop);
 			s.setStatus(StatusType.SUCCESS);
 			s.setMessage("Sell request placed successfully");
 			return s;
-		}
-		catch(UserServiceException e) {
-			Status s=new Status();
+		} catch (UserServiceException e) {
+			Status s = new Status();
 			s.setStatus(StatusType.FAILED);
 			s.setMessage(e.getMessage());
 			return s;
 		}
 	}
-	
 
-	@GetMapping(value="/listpolicies",produces="application/json")
-	public List<Insurance> getInsurances(@RequestParam("fid")int farmerid){
+	@GetMapping(value = "/listpolicies", produces = "application/json")
+	public List<Insurance> getInsurances(@RequestParam("fid") int farmerid) {
 		System.out.println("hello");
-	return farmerService.policies(farmerid);
-}
+		return farmerService.policies(farmerid);
+	}
 }

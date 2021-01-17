@@ -14,7 +14,7 @@ public interface AdminService {
 	List<Crop> sellRequestInQueue();
 	public void updateCropSellRequest(int userId, int cropId,String cropSoldStatus, String adminApproval);
 	void finalizeAuction(int cropId);
-	void updateClaimRequest(int claimId);
+	void updateClaimRequest(int claimId, String claimStatus);
 	List<Insurance> viewAllPolicy();
 
 }
