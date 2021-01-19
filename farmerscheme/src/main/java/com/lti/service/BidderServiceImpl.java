@@ -2,11 +2,14 @@ package com.lti.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lti.dto.Document;
+import com.lti.dto.Status;
 import com.lti.entity.Bidder;
 import com.lti.entity.Bids;
 import com.lti.exception.UserServiceException;
@@ -61,7 +64,11 @@ public class BidderServiceImpl implements BidderService {
 		return bidderRepository.viewOwnBids(bidderid);
 	}
 	
-	
+	@Override
+	public Status uploadDocs(Document document,HttpServletRequest request) {
+		Status status=bidderRepository.uploadDocs(document,request);
+		return status;
+	}
 		
 	}
 

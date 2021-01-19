@@ -7,6 +7,10 @@ public class Login {
 	private String role;
 	
 	
+	
+	public Login() {
+		
+	}
 	public Login(String username, String password, String role) {
 		super();
 		this.username = username;

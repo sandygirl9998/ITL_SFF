@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
+import com.lti.entity.Bidder;
+import com.lti.entity.ClaimInsurance;
 import com.lti.entity.Crop;
 import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
@@ -107,43 +109,23 @@ public class AdminController {
 	}
 
 	@GetMapping("/farmerProfile")
-	public Farmer profile(@RequestParam int id, HttpServletRequest request) {
-		Farmer farmer = em.find(Farmer.class, id);
+	public Farmer farmerProfile(@RequestParam int id, HttpServletRequest request) {
 
-		// the problem is that the image is in some another folder outside this project
-		// because of this, on the client we will not be able to access it by default
-		// we need to write the code to copy the image from d:/uploads folder
-		// temporarily into this project of ours
-
-		// reading the project's deployed location
-		String projPath = request.getServletContext().getRealPath("/");
-		String tempDownloadPath = projPath + "/downloads/";
-		// creating this downloads folder in case if it doesn't exist
-		File f = new File(tempDownloadPath);
-		if (!f.exists())
-			f.mkdir();
-
-		// the target location where we will save the profile pic of the customer
-		String targetFile = tempDownloadPath + farmer.getFarmerAADHAR();
-		String targetFile1 = tempDownloadPath + farmer.getFarmerPAN();
-		String targetFile2 = tempDownloadPath + farmer.getFarmerCertificate();
-
-		// reading the original location where the image is present
-//			String uploadedImagesPath = projPath + "/assets/";
-		String uploadedImagesPath = "d:/uploads/";
-		String sourceFile = uploadedImagesPath + farmer.getFarmerAADHAR();
-		String sourceFile1 = uploadedImagesPath + farmer.getFarmerPAN();
-		String sourceFile2 = uploadedImagesPath + farmer.getFarmerCertificate();
-
-		try {
-			FileCopyUtils.copy(new File(sourceFile), new File(targetFile));
-			FileCopyUtils.copy(new File(sourceFile1), new File(targetFile1));
-			FileCopyUtils.copy(new File(sourceFile2), new File(targetFile2));
-		} catch (IOException e) {
-			e.printStackTrace(); // hoping for no error will occur
-		}
-
-		return farmer;
+		adminService.viewFarmerProfile(id, request);
+		return adminService.viewFarmerProfile(id, request);
 	}
 
+	@GetMapping("/bidderProfile")
+	public Bidder bidderProfile(@RequestParam int id, HttpServletRequest request) {
+		adminService.viewBidderProfile(id, request);
+		return adminService.viewBidderProfile(id, request);
+	}
+
+	@GetMapping("/viewClaimDoc")
+	public ClaimInsurance viewClaimDoc(@RequestParam int id, HttpServletRequest request) {
+		adminService.viewClaimDoc(id, request);
+		return adminService.viewClaimDoc(id, request);
+	}
+	
+	
 }

@@ -15,7 +15,7 @@ public class SendMail {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("cmakhilesh11@gmail.com");
 		message.setTo(toMail);
-		message.setSubject("Test Mail");
+		message.setSubject("Registration Successfull");
 		message.setText("Congratulations " + name + "\n" + "You have been successfully registered as " + role
 				+ " and your account has been activated");
 		mailSender.send(message);
@@ -27,7 +27,7 @@ public class SendMail {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("cmakhilesh11@gmail.com");
 		message.setTo(toMail);
-		message.setSubject("Test Mail");
+		message.setSubject("Registration declined");
 		message.setText("Hello " + name + "Your attempt to register as " + role
 				+ " in our scheme has been rejected while document verification. Awaiting for a new registration with proper documents ");
 		mailSender.send(message);
@@ -113,6 +113,18 @@ public class SendMail {
 				+ " was declined due to inappropriate documents");
 		System.out.println(message);
 		mailSender.send(message);
+	}
+
+	public void bidGoneBidder(String emailId, int cropId, String cropName, String string, int bidId) {
+		// TODO Auto-generated method stub
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("cmakhilesh11@gmail.com");
+		message.setTo(emailId);
+		message.setSubject("Bid Gone");
+		message.setText("Your bid for crop "+cropName+" of id "+cropId+" was gone. So bidding session for "+ cropId+" is completed and sold");
+		System.out.println(message);
+		mailSender.send(message);
+		
 	}
 
 }

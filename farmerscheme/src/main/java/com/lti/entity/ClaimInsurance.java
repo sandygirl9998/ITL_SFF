@@ -1,13 +1,12 @@
 package com.lti.entity;
 
-import javax.persistence.CascadeType;
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -31,7 +30,7 @@ public class ClaimInsurance  {
 	@Column
 	private String claimReason;
 	@Column
-	private String dateOfLoss;
+	private LocalDate dateOfLoss;
 	@Column
 	private String status="Queued";
 	@Column 
@@ -75,10 +74,11 @@ public class ClaimInsurance  {
 	public void setClaimReason(String claimReason) {
 		this.claimReason = claimReason;
 	}
-	public String getDateOfLoss() {
+	
+	public LocalDate getDateOfLoss() {
 		return dateOfLoss;
 	}
-	public void setDateOfLoss(String dateOfLoss) {
+	public void setDateOfLoss(LocalDate dateOfLoss) {
 		this.dateOfLoss = dateOfLoss;
 	}
 	public String getStatus() {
@@ -86,6 +86,12 @@ public class ClaimInsurance  {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getDocument() {
+		return document;
+	}
+	public void setDocument(String document) {
+		this.document = document;
 	}
 	
 		

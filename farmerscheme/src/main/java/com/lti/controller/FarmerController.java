@@ -72,53 +72,21 @@ public class FarmerController {
 	}
 
 	@PostMapping("/farmer-doc")
-	public @ResponseBody Status upload(Document document, HttpServletRequest request) {
-//		String projPath = request.getServletContext().getRealPath("/");
-//		String imgUploadLocation = projPath + "/assets/";
-		String imgUploadLocation = "d:/uploads/";
-		System.out.println(imgUploadLocation);
-		// creating this downloads folder in case if it doesn't exist
-		File f = new File(imgUploadLocation);
-		if (!f.exists())
-			f.mkdir();
-		String emailId = document.getEmailId();
-		int id = userRepository.fetchByEmail(document.getEmailId());
-		String uploadedAadharFileName = document.getAadhar().getOriginalFilename();
-		String uploadedPANFileName = document.getPAN().getOriginalFilename();
-		String uploadedCertificateFileName = document.getCertificate().getOriginalFilename();
-		String newFileName = id + "-" + "Aadhar" + "-" + uploadedAadharFileName;
-		String newFileName1 = id + "-" + "PAN" + "-" + uploadedPANFileName;
-		String newFileName2 = id + "-" + "Cert" + "-" + uploadedCertificateFileName;
-		String targetFileName = imgUploadLocation + newFileName;
-		String targetFileName1 = imgUploadLocation + newFileName1;
-		String targetFileName2 = imgUploadLocation + newFileName2;
-		try {
-			FileCopyUtils.copy(document.getAadhar().getInputStream(), new FileOutputStream(targetFileName));
-			FileCopyUtils.copy(document.getPAN().getInputStream(), new FileOutputStream(targetFileName1));
-			FileCopyUtils.copy(document.getCertificate().getInputStream(), new FileOutputStream(targetFileName2));
-		} catch (IOException e) {
-			e.printStackTrace(); // hoping no error would occur
-			Status status = new Status();
-			status.setStatus(StatusType.FAILED);
-			status.setMessage("File upload failed!");
-			return status;
-		}
-
-		farmerService.updateAadhar(emailId, newFileName);
-		farmerService.updatePAN(emailId, newFileName1);
-		farmerService.updateCertificate(emailId, newFileName2);
-		Status status = new Status();
-		status.setStatus(StatusType.SUCCESS);
-		status.setMessage("Documents uploaded!");
+	public @ResponseBody Status upload( Document document,HttpServletRequest request) {
+		
+			Status status=farmerService.uploadDocs(document,request)	;
 		return status;
 	}
-
+	
+	
+	
+	
 	// Placing Sell Request
 	@PostMapping(value = "/addCrop")
-	public @ResponseBody Status addCrop(@RequestParam("farmerId") int farmerId, @RequestBody Crop crop) {
+	public @ResponseBody Status addCrop(@RequestParam("farmerId") int farmerId,@RequestBody Crop crop) {
 		try {
 			Status s = new Status();
-			farmerService.addCrop(farmerId, crop);
+			farmerService.addCrop(farmerId,crop);
 			s.setStatus(StatusType.SUCCESS);
 			s.setMessage("Sell request placed successfully");
 			return s;
@@ -135,4 +103,5 @@ public class FarmerController {
 		System.out.println("hello");
 		return farmerService.policies(farmerid);
 	}
+	
 }

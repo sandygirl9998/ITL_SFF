@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.lti.dto.Status;
 import com.lti.dto.Status.StatusType;
 import com.lti.entity.Bidder;
 import com.lti.entity.Bids;
+import com.lti.entity.Crop;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.UserRepository;
 import com.lti.service.BidderService;
@@ -34,6 +37,8 @@ public class BidderController {
 	private UserRepository userRepository;
 	@Autowired
 	private BidderService bidderService;
+	@PersistenceContext
+	EntityManager em;
 
 	@PostMapping("/bregister")
 	public @ResponseBody Status register(@RequestBody Bidder bidder) {
@@ -45,7 +50,7 @@ public class BidderController {
 			return s;
 		} catch (UserServiceException e) {
 			Status s = new Status();
-			bidderService.add(bidder);
+			System.out.println(e);
 			s.setStatus(StatusType.FAILED);
 			s.setMessage(e.getMessage());
 			return s;
@@ -53,48 +58,19 @@ public class BidderController {
 	}
 
 	@PostMapping("/bidder-doc")
-	public @ResponseBody Status upload(Document document, HttpServletRequest request) {
-		String projPath = request.getServletContext().getRealPath("/");
-		String imgUploadLocation = projPath + "/assets/";
-		System.out.println(projPath);
-		// creating this downloads folder in case if it doesn't exist
-		File f = new File(imgUploadLocation);
-		if (!f.exists())
-			f.mkdir();
-		String emailId = document.getEmailId();
-		int id = userRepository.fetchByEmail(document.getEmailId());
-		String uploadedAadharFileName = document.getAadhar().getOriginalFilename();
-		String uploadedPANFileName = document.getPAN().getOriginalFilename();
-		String uploadedLicenseFileName = document.getLicense().getOriginalFilename();
-		String newFileName = id + "-" + "Aadhar" + "-" + uploadedAadharFileName;
-		String newFileName1 = id + "-" + "PAN" + "-" + uploadedPANFileName;
-		String newFileName2 = id + "-" + "License" + "-" + uploadedLicenseFileName;
-		String targetFileName = imgUploadLocation + newFileName;
-		String targetFileName1 = imgUploadLocation + newFileName1;
-		String targetFileName2 = imgUploadLocation + newFileName2;
-		try {
-			FileCopyUtils.copy(document.getAadhar().getInputStream(), new FileOutputStream(targetFileName));
-			FileCopyUtils.copy(document.getPAN().getInputStream(), new FileOutputStream(targetFileName1));
-			FileCopyUtils.copy(document.getLicense().getInputStream(), new FileOutputStream(targetFileName2));
-		} catch (IOException e) {
-			e.printStackTrace(); // hoping no error would occur
-			Status status = new Status();
-			status.setStatus(StatusType.FAILED);
-			status.setMessage("File upload failed!");
-			return status;
-		}
-
-		bidderService.updateAadhar(emailId, newFileName);
-		bidderService.updatePAN(emailId, newFileName1);
-		bidderService.updateLicense(emailId, newFileName2);
-		Status status = new Status();
-		status.setStatus(StatusType.SUCCESS);
-		status.setMessage("Documents uploaded!");
+	public @ResponseBody Status upload( Document document,HttpServletRequest request) {
+		
+			Status status=bidderService.uploadDocs(document,request)	;
 		return status;
 	}
 
 	@PostMapping("/placebid")
 	public @ResponseBody Status bidding(@RequestParam int bidderid, @RequestParam int cropid, @RequestBody Bids bid) {
+		Bidder bidder=em.find(Bidder.class, bidderid);
+        Crop c=em.find(Crop.class,cropid);   
+        double cb=(double)c.getCurrentBid();
+        double ba=bid.getBidAmount();
+        if(ba>cb) {
 		try {
 			Status s = new Status();
 			bidderService.placeBid(bidderid, cropid, bid);
@@ -107,6 +83,13 @@ public class BidderController {
 			s.setMessage(e.getMessage());
 			return s;
 		}
+        }
+        else {
+        	Status s = new Status();
+			s.setStatus(StatusType.FAILED);
+			s.setMessage("Bid amount should be greater than current bid");
+			return s;
+        }
 	}
 
 	@GetMapping(value = "/bidderownbids")

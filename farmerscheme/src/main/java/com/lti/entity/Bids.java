@@ -20,7 +20,7 @@ public class Bids {
 	private int bidId;
 
 	@Column
-	private int bidAmount;
+	private double bidAmount;
 
 	@ManyToOne
 	@JoinColumn(name="bidderid")
@@ -51,11 +51,11 @@ public class Bids {
 		this.bidId = bidId;
 	}
 
-	public int getBidAmount() {
+	public double getBidAmount() {
 		return bidAmount;
 	}
 
-	public void setBidAmount(int bidAmount) {
+	public void setBidAmount(double bidAmount) {
 		this.bidAmount = bidAmount;
 	}
 

@@ -38,7 +38,7 @@ public class UserController {
             status.setRole(login.getRole());
             return status;
         }
-        catch(UserServiceException e) {
+        catch(Exception e) {
             LoginStatus status = new LoginStatus();
             status.setStatus(StatusType.FAILED);
             status.setMessage(e.getMessage());

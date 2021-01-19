@@ -2,17 +2,19 @@ package com.lti.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lti.dto.Document;
+import com.lti.dto.Status;
 import com.lti.entity.Crop;
 import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.exception.UserServiceException;
 import com.lti.repository.FarmerRepo;
-import com.lti.repository.Policies;
 import com.lti.repository.UserRepository;
 
 @Service
@@ -80,4 +82,12 @@ public class FarmerServiceImpl implements FarmerService {
 		System.out.println("hello");
 		return farmerRepository.getinsurance(farmerid);
 	}
+	
+	@Override
+	public Status uploadDocs(Document document,HttpServletRequest request) {
+		Status status=farmerRepository.uploadDocs(document,request);
+		return status;
+	}
+
+	
 }

@@ -10,6 +10,14 @@ public class Document {
 	private MultipartFile PAN;
 	private MultipartFile Certificate;
 	private MultipartFile License;
+	private MultipartFile claimDocument;
+	
+	public MultipartFile getClaimDocument() {
+		return claimDocument;
+	}
+	public void setClaimDocument(MultipartFile claimDocument) {
+		this.claimDocument = claimDocument;
+	}
 	public String getEmailId() {
 		return emailId;
 	}

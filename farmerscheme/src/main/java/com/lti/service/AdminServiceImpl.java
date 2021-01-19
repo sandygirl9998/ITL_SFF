@@ -2,10 +2,15 @@ package com.lti.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lti.entity.Bidder;
+import com.lti.entity.ClaimInsurance;
 import com.lti.entity.Crop;
+import com.lti.entity.Farmer;
 import com.lti.entity.Insurance;
 import com.lti.entity.User;
 import com.lti.repository.AdminRepo;
@@ -69,4 +74,23 @@ public class AdminServiceImpl implements AdminService {
 		return repo.viewAllPolicy();
 	}
 
+	@Override
+	public Bidder viewBidderProfile(int id, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return repo.viewBidderProfile(id, request);
+	}
+
+	@Override
+	public ClaimInsurance viewClaimDoc(int id, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return repo.viewClaimDoc(id, request);
+	}
+
+	@Override
+	public Farmer viewFarmerProfile(int id, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return repo.viewFarmerProfile(id, request);
+	}
+
+	
 }

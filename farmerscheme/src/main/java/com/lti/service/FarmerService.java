@@ -2,7 +2,10 @@ package com.lti.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
+import com.lti.dto.Document;
+import com.lti.dto.Status;
 import com.lti.entity.Crop;
 
 import com.lti.entity.Farmer;
@@ -14,14 +17,11 @@ public interface FarmerService {
 
 	void insure(int fid, Insurance insurance);
 
-	public void updateAadhar(String emailId, String newFileName) ;
-	public void updatePAN(String emailId,String newFileName);
-	public void updateCertificate(String emailId,String newFileName);
-
+	
 	void addCrop(int farmerId, Crop crop);
 	List<Insurance> policies(int farmerid);
 
-
+	Status uploadDocs(Document document, HttpServletRequest request);
 
 
 }
