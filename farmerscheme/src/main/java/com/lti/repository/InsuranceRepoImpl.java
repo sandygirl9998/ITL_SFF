@@ -54,8 +54,10 @@ public class InsuranceRepoImpl implements InsuranceRepo {
 		Insurance insurance =em.find(Insurance.class,policyId);
 		insurance.setClaim(claim);
 		insurance.setPolicyStatus("Pending");
-		em.persist(claim);		
-		
+		claim.setInsureeName(insurance.getFarmer().getName());
+		claim.setPolicyCompany(insurance.getPolicyCompany());
+		claim.setSumInsured(insurance.getSumInsured());		
+		em.persist(claim);
 		em.merge(insurance);
 	}
 	

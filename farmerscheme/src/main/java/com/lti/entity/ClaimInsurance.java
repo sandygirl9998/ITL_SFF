@@ -26,7 +26,7 @@ public class ClaimInsurance  {
 	@Column
 	private String InsureeName;
 	@Column
-	private String sumInsured;
+	private double sumInsured;
 	@Column
 	private String claimReason;
 	@Column
@@ -62,10 +62,10 @@ public class ClaimInsurance  {
 	public void setInsureeName(String insureeName) {
 		InsureeName = insureeName;
 	}
-	public String getSumInsured() {
+	public double getSumInsured() {
 		return sumInsured;
 	}
-	public void setSumInsured(String sumInsured) {
+	public void setSumInsured(double sumInsured) {
 		this.sumInsured = sumInsured;
 	}
 	public String getClaimReason() {
